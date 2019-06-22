@@ -1,5 +1,9 @@
 {% extends 'base/base_user.html' %}
 {% load  static %}
+{#填充我们的头部#}
+{% block header %}
+    <header></header>
+{% endblock %}
 {% block content %}
     <div class="container">
         <form action="{% url 'axf:login' %}" id="my_form" method="post" >
@@ -14,6 +18,7 @@
             </div>
 
             <button type="submit" class="btn btn-success btn-block">登录</button>
+            <button type="button" class="btn btn-success btn-block" id="ret" onclick="{% url 'axf:home' %}">返回</button>
         </form>
     </div>
 {% endblock %}
@@ -22,4 +27,10 @@
 {{ block.super }}
     <script type="text/javascript" src="{% static 'js/md5.js' %}"> </script>
     <script type="text/javascript" src="{% static 'user/js/login.js' %}"></script>
+    <script type="text/javascript">
+    $("#ret").click(function(){
+        window.open("{% url 'axf:home' %}","_self");
+    })
+
+    </script>
 {% endblock %}

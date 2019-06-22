@@ -30,8 +30,42 @@
     <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/swiper.jquery.js' %}"></script>
+    <script type="text/javascript">
+        function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                 break;
+             }
+         }
+     }
+     return cookieValue;
+ }
+// 在cookie中获取csrftoken
+var csrftoken = getCookie('csrftoken');
+
+ function csrfSafeMethod(method) {
+   // these HTTP methods do not require CSRF protection
+   return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+ }
+// 为每次Ajax请求之前执行该函数
+// 只要在使用Ajax的地方之前导入即可
+ $.ajaxSetup({
+   beforeSend: function (xhr, settings) {
+     if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+       xhr.setRequestHeader("X-CSRFToken", csrftoken);
+     }
+   }
+ });
+    </script>
     <script type="text/javascript" src="{% static 'js/base.js' %}"></script>
+
     {% block js %}
-    
+
     {% endblock %}
 </html>
